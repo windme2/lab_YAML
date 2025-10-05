@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Web Service - Nginx
+  web:
+    image: nginx:latest
+    container_name: nginx-web
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - app-network
+    restart: unless-stopped
+    
+  # Database Service - MySQL
+  db:
+    image: mysql:5.7
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword123
+      MYSQL_DATABASE: myapp_db
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppassword123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+    restart: unless-stopped
+
+# Networks
+networks:
+  app-network:
+    driver: bridge
+
+# Volumes
+volumes:
+  mysql_data:
+    driver: local
