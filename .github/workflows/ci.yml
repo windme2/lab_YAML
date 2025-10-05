@@ -24,7 +24,7 @@ jobs:
         run: sudo pip install yamllint
       - name: Lint all YAML files
         run: |
-          yamllint -d relaxed .
+          yamllint --config-data "{extends: default, rules: {new-lines: disable, new-line-at-end-of-file: disable, truthy: disable, line-length: disable}}" .
 
   validate-docker-compose:
     runs-on: ubuntu-latest
